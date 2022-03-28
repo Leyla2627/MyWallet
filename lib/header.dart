@@ -17,7 +17,7 @@ class Header extends StatelessWidget {
         markedDate.month == DateTime.now().month;
     final firstTime = markedDate.year == 2021 && markedDate.month == 1;
     return Padding(
-      padding: const EdgeInsets.all(20.0),
+      padding: const EdgeInsets.all(0.0),
       child: Column(
         children: [
           TextButton(

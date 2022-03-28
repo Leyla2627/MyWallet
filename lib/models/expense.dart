@@ -36,6 +36,10 @@ class Expenses {
     Expense(id: "e6", title: "tufli", date: DateTime.now(), amount: 210000),
     Expense(id: "e7", title: "tufli", date: DateTime.now(), amount: 210000),
     Expense(id: "e8", title: "tufli", date: DateTime.now(), amount: 210000),
+    Expense(id: "e9", title: "tufli", date: DateTime.now(), amount: 210000),
+    Expense(id: "e10", title: "tufli", date: DateTime.now(), amount: 210000),
+    Expense(id: "e11", title: "tufli", date: DateTime.now(), amount: 210000),
+    Expense(id: "e12", title: "tufli", date: DateTime.now(), amount: 210000),
   ];
 
   List<Expense> get items {

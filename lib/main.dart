@@ -1,5 +1,5 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
 import 'package:my_wallet/add_expense.dart';
 import 'package:my_wallet/body.dart';
@@ -44,6 +44,7 @@ class MyWallet extends StatefulWidget {
 class _MyWalletState extends State<MyWallet> {
   Expenses expenseData = Expenses();
   DateTime _markedDate = DateTime.now();
+  bool _showExpenseList = false;
 
   void showCalendar(BuildContext context) {
     showMonthPicker(
@@ -97,32 +98,75 @@ class _MyWalletState extends State<MyWallet> {
     });
   }
 
-  void deleteExpense(String id){
-   setState(() {
-     expenseData.delete(id);
-   });
+  void deleteExpense(String id) {
+    setState(() {
+      expenseData.delete(id);
+    });
   }
+
+  Widget _showPortraitItems(totalByMonth, deviceHeight, deviceWidth){
+    return Column(children: [
+      Container(
+        width: deviceWidth,
+        height: deviceHeight > 640 ? deviceHeight * 0.2 : deviceHeight * 0.3,
+        child: Header(showCalendar, _markedDate, previousMonth, nextMonth,
+          totalByMonth),
+      ),
+      Container(
+        width: deviceWidth,
+        height: deviceHeight > 640 ? deviceHeight * 0.8 : deviceHeight * 0.7,
+        child: Body(expenseData.itemByMonth(_markedDate), totalByMonth,
+            deleteExpense),
+      ),],);
+  }
+
+  Widget _showLandscapeItems(totalByMonth, deviceHeight, deviceWidth){
+   return Column(
+     crossAxisAlignment: CrossAxisAlignment.stretch,
+     children: [
+       Row(mainAxisAlignment: MainAxisAlignment.center, children: [Text("Ro`yxatni ko`rsatish"), Switch(value: _showExpenseList, onChanged: (value){
+          setState(() {
+            _showExpenseList = value;
+          });
+        })],
+       ),
+       _showExpenseList ? Container(
+         width: deviceWidth,
+         height: deviceHeight * 0.9,
+         child: Body(expenseData.itemByMonth(_markedDate), totalByMonth,
+             deleteExpense),
+       ) : Container(
+         width: deviceWidth,
+         height: deviceHeight * 0.9,
+         child: Header(showCalendar, _markedDate, previousMonth, nextMonth,
+    totalByMonth),
+       ),
+     ],
+   );
+  }
+
+  final appBar = AppBar(
+    centerTitle: true,
+    title: const Text("My Wallet"),
+  );
 
   @override
   Widget build(BuildContext context) {
     final totalByMonth = expenseData.totalExpenseByMonth(_markedDate);
+    final isLandscape = MediaQuery.of(context).orientation ==Orientation.landscape;
+
+    final deviceHeight = MediaQuery.of(context).size.height - appBar.preferredSize.height-MediaQuery.of(context).padding.top;
+    final deviceWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text("My Wallet"),
-      ),
-      body:
-      Expanded(
-        flex: 1,
-        child: ListView(
-            children:[Column(children: [Header(showCalendar, _markedDate, previousMonth, nextMonth, totalByMonth),
-              Body(expenseData.itemByMonth(_markedDate), totalByMonth, deleteExpense),
+      appBar: appBar,
+      body:SingleChildScrollView(
+        child: Column(
+          children: [
+            isLandscape ? _showLandscapeItems(totalByMonth, deviceHeight, deviceWidth) : _showPortraitItems(totalByMonth, deviceHeight, deviceWidth),
             ],
-            ),]
-
-          ),
+        ),
       ),
-
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showAddExpenseWindow(context);

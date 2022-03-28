@@ -44,71 +44,73 @@ class _AddExpenseState extends State<AddExpense> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: Column(
-        children: [
-          TextField(
-            decoration: InputDecoration(labelText: "xarajat nomi"),
-            controller: _titleController,
-          ),
-          TextField(
-            decoration: InputDecoration(
-              labelText: "xarajat miqdori",
+    return SingleChildScrollView(
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Column(
+          children: [
+            TextField(
+              decoration: InputDecoration(labelText: "xarajat nomi"),
+              controller: _titleController,
             ),
-            keyboardType: TextInputType.number,
-            controller: _amountController,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(_selectedDate == null
-                  ? "Xarajat kuni tanlanmadi!"
-                  : "Xarajat kuni: ${DateFormat("dd, MMMM, y").format(_selectedDate!)}"),
-              TextButton(
-                onPressed: () {
-                  showNewExpenseCalendar(context);
-                },
-                child: Text("KUNNI TANLASH"),
-              )
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _icon == null ? Text("Rasm tanlang") : Row(
-                children: [
-                  Text("Tanlangan rasm:"),
-                  Icon(_icon, color: Colors.purple,),
-                ],
+            TextField(
+              decoration: InputDecoration(
+                labelText: "xarajat miqdori",
               ),
-              TextButton(
-                onPressed: () {showExpenseIconPicker();},
-                child: Text("ICON TANLASH"),
-              )
-            ],),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              TextButton(
+              keyboardType: TextInputType.number,
+              controller: _amountController,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(_selectedDate == null
+                    ? "Xarajat kuni tanlanmadi!"
+                    : "Xarajat kuni: ${DateFormat("dd, MMMM, y").format(_selectedDate!)}"),
+                TextButton(
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    showNewExpenseCalendar(context);
                   },
-                  child: Text("Bekor qilish")),
-              ElevatedButton(
-                  onPressed: () {
-                    if (_titleController.text == null ||
-                        _amountController.text == null ||
-                        _selectedDate == null) return;
-                    var title = _titleController.text;
-                    var amount = double.parse(_amountController.text);
-                    if (amount <= 0) return;
-                    widget.addNewExpense(title, amount, _selectedDate, _icon);
-                  },
-                  child: Text("KIRITISH"))
-            ],
-          )
-        ],
+                  child: Text("KUNNI TANLASH"),
+                )
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _icon == null ? Text("Rasm tanlang") : Row(
+                  children: [
+                    Text("Tanlangan rasm:"),
+                    Icon(_icon, color: Colors.purple,),
+                  ],
+                ),
+                TextButton(
+                  onPressed: () {showExpenseIconPicker();},
+                  child: Text("ICON TANLASH"),
+                )
+              ],),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text("Bekor qilish")),
+                ElevatedButton(
+                    onPressed: () {
+                      if (_titleController.text == null ||
+                          _amountController.text == null ||
+                          _selectedDate == null) return;
+                      var title = _titleController.text;
+                      var amount = double.parse(_amountController.text);
+                      if (amount <= 0) return;
+                      widget.addNewExpense(title, amount, _selectedDate, _icon);
+                    },
+                    child: Text("KIRITISH"))
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
