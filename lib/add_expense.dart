@@ -2,6 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 import 'package:intl/intl.dart';
+import 'package:my_wallet/adaptive_button.dart';
+
+import 'dart:io' show Platform;
+
+import 'package:my_wallet/adaptive_textfield.dart';
 
 class AddExpense extends StatefulWidget {
   final Function addNewExpense;
@@ -39,27 +44,27 @@ class _AddExpenseState extends State<AddExpense> {
      if(value!=null){_icon = value;}
    })
     });
-
   }
+
+  void _submit(){
+    if (_titleController.text == null ||
+        _amountController.text == null ||
+        _selectedDate == null) return;
+    var title = _titleController.text;
+    var amount = double.parse(_amountController.text);
+    if (amount <= 0) return;
+    widget.addNewExpense(title, amount, _selectedDate, _icon);
+   }
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        padding: EdgeInsets.only(top: 16.0, bottom: MediaQuery.of(context).viewInsets.bottom >0 ? MediaQuery.of(context).viewInsets.bottom +16.0 : 100, left: 16.0, right: 16.0),
         child: Column(
           children: [
-            TextField(
-              decoration: InputDecoration(labelText: "xarajat nomi"),
-              controller: _titleController,
-            ),
-            TextField(
-              decoration: InputDecoration(
-                labelText: "xarajat miqdori",
-              ),
-              keyboardType: TextInputType.number,
-              controller: _amountController,
-            ),
+            AdaptiveTextField(controller: _titleController, label: "Xarajat nomi"),
+            AdaptiveTextField(keyboardType: TextInputType.number, controller: _amountController, label: "Xarajat miqdori"),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -91,22 +96,10 @@ class _AddExpenseState extends State<AddExpense> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Text("Bekor qilish")),
-                ElevatedButton(
-                    onPressed: () {
-                      if (_titleController.text == null ||
-                          _amountController.text == null ||
-                          _selectedDate == null) return;
-                      var title = _titleController.text;
-                      var amount = double.parse(_amountController.text);
-                      if (amount <= 0) return;
-                      widget.addNewExpense(title, amount, _selectedDate, _icon);
-                    },
-                    child: Text("KIRITISH"))
+                AdaptiveButton(text: 'BEKOR QILISH', handler: (){
+                  Navigator.of(context).pop();
+                }),
+                AdaptiveButton(text: 'KIRITISH', handler: _submit, filled: true,)
               ],
             )
           ],

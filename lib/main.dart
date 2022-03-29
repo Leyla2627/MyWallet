@@ -1,3 +1,5 @@
+import 'dart:io' show Platform;
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
@@ -84,6 +86,7 @@ class _MyWalletState extends State<MyWallet> {
 
   void showAddExpenseWindow(BuildContext context) {
     showModalBottomSheet(
+      isScrollControlled: true,
         context: context,
         isDismissible: false,
         builder: (ctx) {
@@ -124,7 +127,8 @@ class _MyWalletState extends State<MyWallet> {
    return Column(
      crossAxisAlignment: CrossAxisAlignment.stretch,
      children: [
-       Row(mainAxisAlignment: MainAxisAlignment.center, children: [Text("Ro`yxatni ko`rsatish"), Switch(value: _showExpenseList, onChanged: (value){
+       Row(mainAxisAlignment: MainAxisAlignment.center, children: [Text("Ro`yxatni ko`rsatish"),
+         Switch.adaptive(value: _showExpenseList, onChanged: (value){
           setState(() {
             _showExpenseList = value;
           });
@@ -145,15 +149,20 @@ class _MyWalletState extends State<MyWallet> {
    );
   }
 
-  final appBar = AppBar(
-    centerTitle: true,
-    title: const Text("My Wallet"),
-  );
+
 
   @override
   Widget build(BuildContext context) {
     final totalByMonth = expenseData.totalExpenseByMonth(_markedDate);
     final isLandscape = MediaQuery.of(context).orientation ==Orientation.landscape;
+
+    final appBar = AppBar(
+      centerTitle: true,
+      title: const Text("My Wallet"),
+      actions: Platform.isIOS ? [
+        IconButton(onPressed: (){}, icon: Icon(Icons.add))
+      ] : []
+    );
 
     final deviceHeight = MediaQuery.of(context).size.height - appBar.preferredSize.height-MediaQuery.of(context).padding.top;
     final deviceWidth = MediaQuery.of(context).size.width;

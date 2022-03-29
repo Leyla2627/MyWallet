@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_wallet/adaptive_button.dart';
 
 class EditMonthlyBudget extends StatefulWidget {
   final Function editBudget;
@@ -43,21 +44,21 @@ class _EditMonthlyBudgetState extends State<EditMonthlyBudget> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              TextButton(
-                  onPressed: () {
+              AdaptiveButton(
+                  handler: () {
                     Navigator.of(context).pop();
                   },
-                  child: Text("Bekor qilish")),
-              ElevatedButton(
-                  onPressed: () {
-                    if (_monthlyBudgetController.text == null) return;
-                    var value = double.parse(_monthlyBudgetController.text);
-                    if (value > 0) {
-                      widget.editBudget(value);
-                      Navigator.of(context).pop();
-                    }
-                  },
-                  child: Text("O`zgartirish"))
+                  text: "BEKOR QILISH"),
+              AdaptiveButton(text: 'O`ZGARTIRISH',
+                  filled: true,
+                  handler: (){
+                if (_monthlyBudgetController.text == null) return;
+                var value = double.parse(_monthlyBudgetController.text);
+                if (value > 0) {
+                  widget.editBudget(value);
+                  Navigator.of(context).pop();
+                }
+              })
             ],
           )
         ],
