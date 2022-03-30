@@ -34,39 +34,38 @@ class _BudgetState extends State<Budget> {
     final totalLimitPencentage = 100 * widget.totalExpense / _budgetLimit;
 
     return LayoutBuilder(builder: (context, constraints) {
-        return Container(
-          padding: const EdgeInsets.all(20),
-          width: double.infinity,
-          height: constraints.maxHeight,
-          decoration: BoxDecoration(
-              color: Color.fromRGBO(239, 240, 250, 1),
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(50), topRight: Radius.circular(50))),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Text("oylik budget: "),
-                      TextButton.icon(
-                          onPressed: () {
-                            showMonthlyBudgetWindow(context);
-                          },
-                          icon: Icon(Icons.edit, size: 18),
-                          label: Text("${_budgetLimit.toStringAsFixed(0)} so`m")),
-                    ],
-                  ),
-                  Text(
-                      "${totalLimitPencentage > 100 ? 100 : totalLimitPencentage.toStringAsFixed(2)}%")
-                ],
-              ),
-              ProgressBar(totalLimitPencentage),
-            ],
-          ),
-        );
-      }
-    );
+      return Container(
+        padding: const EdgeInsets.all(20),
+        width: double.infinity,
+        height: constraints.maxHeight,
+        decoration: BoxDecoration(
+            color: Color.fromRGBO(239, 240, 250, 1),
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(50), topRight: Radius.circular(50))),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Text("oylik budget: "),
+                    TextButton.icon(
+                        onPressed: () {
+                          showMonthlyBudgetWindow(context);
+                        },
+                        icon: Icon(Icons.edit, size: 18),
+                        label: Text("${_budgetLimit.toStringAsFixed(0)} so`m")),
+                  ],
+                ),
+                Text(
+                    "${totalLimitPencentage > 100 ? 100 : totalLimitPencentage.toStringAsFixed(2)}%")
+              ],
+            ),
+            ProgressBar(totalLimitPencentage),
+          ],
+        ),
+      );
+    });
   }
 }

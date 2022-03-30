@@ -3,9 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 import 'package:intl/intl.dart';
 import 'package:my_wallet/adaptive_button.dart';
-
-import 'dart:io' show Platform;
-
 import 'package:my_wallet/adaptive_textfield.dart';
 
 class AddExpense extends StatefulWidget {
@@ -37,16 +34,19 @@ class _AddExpenseState extends State<AddExpense> {
             });
   }
 
-  void showExpenseIconPicker()  {
-    FlutterIconPicker.showIconPicker(context,
-        iconPackModes: [IconPack.material]).then((value) =>{
-   setState(() {
-     if(value!=null){_icon = value;}
-   })
-    });
+  void showExpenseIconPicker() {
+    FlutterIconPicker.showIconPicker(context, iconPackModes: [
+      IconPack.material
+    ]).then((value) => {
+          setState(() {
+            if (value != null) {
+              _icon = value;
+            }
+          })
+        });
   }
 
-  void _submit(){
+  void _submit() {
     if (_titleController.text == null ||
         _amountController.text == null ||
         _selectedDate == null) return;
@@ -54,52 +54,76 @@ class _AddExpenseState extends State<AddExpense> {
     var amount = double.parse(_amountController.text);
     if (amount <= 0) return;
     widget.addNewExpense(title, amount, _selectedDate, _icon);
-   }
+  }
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Container(
-        padding: EdgeInsets.only(top: 16.0, bottom: MediaQuery.of(context).viewInsets.bottom >0 ? MediaQuery.of(context).viewInsets.bottom +16.0 : 100, left: 16.0, right: 16.0),
+        padding: EdgeInsets.only(
+            top: 16.0,
+            bottom: MediaQuery.of(context).viewInsets.bottom > 0
+                ? MediaQuery.of(context).viewInsets.bottom + 16.0
+                : 100,
+            left: 16.0,
+            right: 16.0),
         child: Column(
           children: [
-            AdaptiveTextField(controller: _titleController, label: "Xarajat nomi"),
-            AdaptiveTextField(keyboardType: TextInputType.number, controller: _amountController, label: "Xarajat miqdori"),
+            AdaptiveTextField(
+                controller: _titleController, label: "Xarajat nomi"),
+            AdaptiveTextField(
+                keyboardType: TextInputType.number,
+                controller: _amountController,
+                label: "Xarajat miqdori"),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(_selectedDate == null
-                    ? "Xarajat kuni tanlanmadi!"
-                    : "Xarajat kuni: ${DateFormat("dd, MMMM, y").format(_selectedDate!)}"),
+                _selectedDate == null
+                    ? const Text("Xarajat kuni tanlanmadi!")
+                    : Text("Xarajat kuni: ${DateFormat("dd, MMMM, y").format(_selectedDate!)}"),
                 TextButton(
                   onPressed: () {
                     showNewExpenseCalendar(context);
                   },
-                  child: Text("KUNNI TANLASH"),
+                  child: const Text("KUNNI TANLASH"),
                 )
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _icon == null ? Text("Rasm tanlang") : Row(
-                  children: [
-                    Text("Tanlangan rasm:"),
-                    Icon(_icon, color: Colors.purple,),
-                  ],
-                ),
+                _icon == null
+                    ? const Text("Rasm tanlang")
+                    : Row(
+                        children: [
+                         const Text("Tanlangan rasm:"),
+                          Icon(
+                            _icon,
+                            color: Colors.purple,
+                          ),
+                        ],
+                      ),
                 TextButton(
-                  onPressed: () {showExpenseIconPicker();},
-                  child: Text("ICON TANLASH"),
+                  onPressed: () {
+                    showExpenseIconPicker();
+                  },
+                  child: const Text("ICON TANLASH"),
                 )
-              ],),
+              ],
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                AdaptiveButton(text: 'BEKOR QILISH', handler: (){
-                  Navigator.of(context).pop();
-                }),
-                AdaptiveButton(text: 'KIRITISH', handler: _submit, filled: true,)
+                AdaptiveButton(
+                    text: 'BEKOR QILISH',
+                    handler: () {
+                      Navigator.of(context).pop();
+                    }),
+                AdaptiveButton(
+                  text: 'KIRITISH',
+                  handler: _submit,
+                  filled: true,
+                )
               ],
             )
           ],

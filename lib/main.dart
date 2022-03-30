@@ -86,7 +86,7 @@ class _MyWalletState extends State<MyWallet> {
 
   void showAddExpenseWindow(BuildContext context) {
     showModalBottomSheet(
-      isScrollControlled: true,
+        isScrollControlled: true,
         context: context,
         isDismissible: false,
         builder: (ctx) {
@@ -94,7 +94,8 @@ class _MyWalletState extends State<MyWallet> {
         });
   }
 
-  void addNewExpense(String title, double amount, DateTime date, IconData icon) {
+  void addNewExpense(
+      String title, double amount, DateTime date, IconData icon) {
     setState(() {
       expenseData.addNewExpense(title, amount, date, icon);
       Navigator.of(context).pop();
@@ -107,80 +108,93 @@ class _MyWalletState extends State<MyWallet> {
     });
   }
 
-  Widget _showPortraitItems(totalByMonth, deviceHeight, deviceWidth){
-    return Column(children: [
-      Container(
-        width: deviceWidth,
-        height: deviceHeight > 640 ? deviceHeight * 0.2 : deviceHeight * 0.3,
-        child: Header(showCalendar, _markedDate, previousMonth, nextMonth,
-          totalByMonth),
-      ),
-      Container(
-        width: deviceWidth,
-        height: deviceHeight > 640 ? deviceHeight * 0.8 : deviceHeight * 0.7,
-        child: Body(expenseData.itemByMonth(_markedDate), totalByMonth,
-            deleteExpense),
-      ),],);
+  Widget _showPortraitItems(totalByMonth, deviceHeight, deviceWidth) {
+    return Column(
+      children: [
+        Container(
+          width: deviceWidth,
+          height: deviceHeight > 640 ? deviceHeight * 0.2 : deviceHeight * 0.3,
+          child: Header(showCalendar, _markedDate, previousMonth, nextMonth,
+              totalByMonth),
+        ),
+        Container(
+          width: deviceWidth,
+          height: deviceHeight > 640 ? deviceHeight * 0.8 : deviceHeight * 0.7,
+          child: Body(expenseData.itemByMonth(_markedDate), totalByMonth,
+              deleteExpense),
+        ),
+      ],
+    );
   }
 
-  Widget _showLandscapeItems(totalByMonth, deviceHeight, deviceWidth){
-   return Column(
-     crossAxisAlignment: CrossAxisAlignment.stretch,
-     children: [
-       Row(mainAxisAlignment: MainAxisAlignment.center, children: [Text("Ro`yxatni ko`rsatish"),
-         Switch.adaptive(value: _showExpenseList, onChanged: (value){
-          setState(() {
-            _showExpenseList = value;
-          });
-        })],
-       ),
-       _showExpenseList ? Container(
-         width: deviceWidth,
-         height: deviceHeight * 0.9,
-         child: Body(expenseData.itemByMonth(_markedDate), totalByMonth,
-             deleteExpense),
-       ) : Container(
-         width: deviceWidth,
-         height: deviceHeight * 0.9,
-         child: Header(showCalendar, _markedDate, previousMonth, nextMonth,
-    totalByMonth),
-       ),
-     ],
-   );
+  Widget _showLandscapeItems(totalByMonth, deviceHeight, deviceWidth) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("Ro`yxatni ko`rsatish"),
+            Switch.adaptive(
+                value: _showExpenseList,
+                onChanged: (value) {
+                  setState(() {
+                    _showExpenseList = value;
+                  });
+                })
+          ],
+        ),
+        _showExpenseList
+            ? Container(
+                width: deviceWidth,
+                height: deviceHeight * 0.9,
+                child: Body(expenseData.itemByMonth(_markedDate), totalByMonth,
+                    deleteExpense),
+              )
+            : Container(
+                width: deviceWidth,
+                height: deviceHeight * 0.9,
+                child: Header(showCalendar, _markedDate, previousMonth,
+                    nextMonth, totalByMonth),
+              ),
+      ],
+    );
   }
-
-
 
   @override
   Widget build(BuildContext context) {
     final totalByMonth = expenseData.totalExpenseByMonth(_markedDate);
-    final isLandscape = MediaQuery.of(context).orientation ==Orientation.landscape;
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
 
     final appBar = AppBar(
-      centerTitle: true,
-      title: const Text("My Wallet"),
-      actions: Platform.isIOS ? [
-        IconButton(onPressed: (){}, icon: Icon(Icons.add))
-      ] : []
-    );
+        centerTitle: true,
+        title: const Text("My Wallet"),
+        actions: Platform.isIOS
+            ? [IconButton(onPressed: () {}, icon: const Icon(Icons.add))]
+            : []);
 
-    final deviceHeight = MediaQuery.of(context).size.height - appBar.preferredSize.height-MediaQuery.of(context).padding.top;
+    final deviceHeight = MediaQuery.of(context).size.height -
+        appBar.preferredSize.height -
+        MediaQuery.of(context).padding.top;
     final deviceWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
       appBar: appBar,
-      body:SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           children: [
-            isLandscape ? _showLandscapeItems(totalByMonth, deviceHeight, deviceWidth) : _showPortraitItems(totalByMonth, deviceHeight, deviceWidth),
-            ],
+            isLandscape
+                ? _showLandscapeItems(totalByMonth, deviceHeight, deviceWidth)
+                : _showPortraitItems(totalByMonth, deviceHeight, deviceWidth),
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showAddExpenseWindow(context);
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }

@@ -12,11 +12,8 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Stack(
-        children: [Budget(totalExpense),
-          Expenselist(expenses, deleteExpense)
-        ],
-
+    return Stack(
+      children: [Budget(totalExpense), Expenselist(expenses, deleteExpense)],
     );
   }
 }

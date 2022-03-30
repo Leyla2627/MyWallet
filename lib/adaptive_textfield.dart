@@ -7,18 +7,26 @@ class AdaptiveTextField extends StatelessWidget {
   final TextEditingController controller;
   final TextInputType? keyboardType;
 
-  const AdaptiveTextField({Key? key, this.keyboardType, required this.controller, required this.label}) : super(key: key);
+  const AdaptiveTextField(
+      {Key? key,
+      this.keyboardType,
+      required this.controller,
+      required this.label})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return  Platform.isAndroid ? TextField(
-      decoration: InputDecoration(labelText: label),
-      controller: controller,
-      keyboardType: keyboardType ?? TextInputType.text,
-    ) : CupertinoTextField(placeholder: label,
-      controller: controller,
-      padding: EdgeInsets.all(10.0),
-      keyboardType: keyboardType ?? TextInputType.text,
-    );
+    return Platform.isAndroid
+        ? TextField(
+            decoration: InputDecoration(labelText: label),
+            controller: controller,
+            keyboardType: keyboardType ?? TextInputType.text,
+          )
+        : CupertinoTextField(
+            placeholder: label,
+            controller: controller,
+            padding: EdgeInsets.all(10.0),
+            keyboardType: keyboardType ?? TextInputType.text,
+          );
   }
 }

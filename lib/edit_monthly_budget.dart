@@ -49,16 +49,17 @@ class _EditMonthlyBudgetState extends State<EditMonthlyBudget> {
                     Navigator.of(context).pop();
                   },
                   text: "BEKOR QILISH"),
-              AdaptiveButton(text: 'O`ZGARTIRISH',
+              AdaptiveButton(
+                  text: 'O`ZGARTIRISH',
                   filled: true,
-                  handler: (){
-                if (_monthlyBudgetController.text == null) return;
-                var value = double.parse(_monthlyBudgetController.text);
-                if (value > 0) {
-                  widget.editBudget(value);
-                  Navigator.of(context).pop();
-                }
-              })
+                  handler: () {
+                    if (_monthlyBudgetController.text == null) return;
+                    var value = double.parse(_monthlyBudgetController.text);
+                    if (value > 0) {
+                      widget.editBudget(value);
+                      Navigator.of(context).pop();
+                    }
+                  })
             ],
           )
         ],

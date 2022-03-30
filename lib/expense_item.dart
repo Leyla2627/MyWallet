@@ -10,17 +10,24 @@ class ExpenseItem extends StatelessWidget {
   final Function deleteExpense;
   final IconData icon;
 
-  ExpenseItem(this.id, this.title, this.date, this.amount, this.key, this.deleteExpense, this.icon) : super(key: key);
+  ExpenseItem(this.id, this.title, this.date, this.amount, this.key,
+      this.deleteExpense, this.icon)
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Dismissible(
       key: key,
-      onDismissed: (direction){
+      onDismissed: (direction) {
         deleteExpense(id);
       },
       direction: DismissDirection.endToStart,
-      background: Container(color: Colors.purple, child: Icon(Icons.delete, color: Colors.white), alignment: Alignment.centerRight, padding: EdgeInsets.only(right: 15),),
+      background: Container(
+        color: Colors.purple,
+        child: Icon(Icons.delete, color: Colors.white),
+        alignment: Alignment.centerRight,
+        padding: EdgeInsets.only(right: 15),
+      ),
       child: ListTile(
         leading: CircleAvatar(
           backgroundColor: Colors.white,
@@ -30,9 +37,11 @@ class ExpenseItem extends StatelessWidget {
           title,
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        subtitle:
-        Text(DateFormat("dd MMMM, y").format(date)),
-        trailing: Text("$amount so`m", style: TextStyle(color: Colors.purple),),
+        subtitle: Text(DateFormat("dd MMMM, y").format(date)),
+        trailing: Text(
+          "$amount so`m",
+          style: TextStyle(color: Colors.purple),
+        ),
       ),
     );
   }
